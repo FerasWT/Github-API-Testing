@@ -13,6 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install Newman
+        run: npm install -g newman newman-reporter-htmlextra
+
+      
       - name: Run Newman API Tests
         run: |
           newman run "./GitHubAPI.postman_collection.json" \
@@ -20,4 +24,7 @@ jobs:
             --global-var "base_url=https://api.github.com" \
             --global-var "owner=FerasWT" \
             --global-var "repo=api-testing-demo" \
-            --global-var "Issue_Number=4"
+            --global-var "Issue_Number=4"\
+            -n 2 \
+            -r cli,htmlextra \
+            --reporter-htmlextra-export newman/report.html
